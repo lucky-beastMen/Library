@@ -1,0 +1,161 @@
+
+@font-face {
+    font-family: audiowide;
+    src: url(fonts/Audiowide-Regular.ttf);
+}
+@font-face {
+    font-family: orbitron-black;
+    src: url(fonts/Orbitron-SemiBold.ttf);
+}
+body{
+    background-image: url(pictures/892eebd7-cbf4-4b92-8f86-4e1075fec0eb.png);
+    display: grid;
+    grid-template-columns: 20% 80%;
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+
+    grid-template-rows: 10% 15% 75%;
+}
+
+header{
+    backdrop-filter: blur(1px);
+    grid-column: 2/-1;
+    grid-row: 2/3;
+    background-color: rgba(0,0,0,0.2);
+    border-top: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+header h1{
+    font-family: orbitron-black, sans-serif;
+}
+.buttons{
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    margin-right: 10px;
+}
+.search-div input{
+    width: 15rem;
+    height: 40px;
+    background-color: rgba(0,0,0,0);
+    border: 0;
+    outline: 1px solid rgb(82, 82, 82, 0.3);
+    border-radius: 5px;
+    background-image: url(icons/search.png);
+    background-repeat: no-repeat;
+    padding-left: 40px;
+    background-position: 12px center;
+    background-size: 20px 20px;
+    color: white;
+    backdrop-filter: blur(4px);
+    transition: all 0.3s ease;
+}
+.search-div input:hover{
+    box-shadow: 0 0 15px blue;
+}
+.search-div input:focus{
+    box-shadow: 0 0 15px blue;
+}
+.add-button{
+    background-color: rgba(20, 10, 20, 0.75); /* dark translucent backing, pink-tinted */
+    border: 1px solid #ff2fd6;
+    color: #ff2fd6;
+    backdrop-filter: blur(4px);
+    height: 40px;
+    width: 120px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bolder;
+}
+.add-button:hover {
+  /* 1. Glow effect */
+    box-shadow: 0 0 15px #ff2fd6;
+
+    /* 2. Makes the button bigger */
+    transform: scale(1.1);
+
+    /* 3. Pink background that fades in from top to bottom */
+    background: linear-gradient(to top, transparent, #fa00c8);
+    color: white; /* <-- switches text to white so it stays visible against the pink */
+
+}
+
+main{
+    grid-column: 2/-1;
+    grid-row: 3/4;
+}
+aside{
+    grid-column: 1/2;
+    grid-row: 1/-1;
+    
+    border-right: 1px solid rgb(48, 48, 97);
+}
+aside h1{
+    font-family: orbitron-black, sans-serif;
+}
+.side-header{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+}
+.side-header > img{
+    height: 40px;
+    width: 40px;
+}
+.toggle-options{
+    margin-left: 5px;
+    margin-right: 5px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-shadow: inset 0 0 10px purple;
+    border-radius: 10px;
+}
+.toggle-all-books{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.3rem;
+    transition: all 0.3s ease;
+    padding-left: 10px;
+    border-bottom: 1px solid linear-gradient(to right, pink);
+}
+.toggle-options > hr{
+    width: 15rem;
+    height: 1px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.toggle-all-books > img{
+    height: 30px;
+    width: 30px;
+}
+.toggle-all-books:hover{
+    box-shadow: inset 0 0 16px rgba(108, 92, 231, 0.7); /* stronger glow */
+}
+.toggle-read-books{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.3rem;
+    transition: all 0.3s ease;
+    padding-left: 10px;
+    border-bottom: 1px solid linear-gradient(to right, pink);
+}
+.toggle-read-books > img{
+    height: 30px;
+    width: 30px;
+}
+.toggle-read-books:hover{
+    box-shadow: inset 0 0 16px rgba(108, 92, 231, 0.7); /* stronger glow */
+}
