@@ -80,7 +80,7 @@ header h1{
     transform: scale(1.1);
 
     /* 3. Pink background that fades in from top to bottom */
-    background: linear-gradient(to top, transparent, #fa00c8);
+    background: #fa00c8;
     color: white; /* <-- switches text to white so it stays visible against the pink */
 
 }
