@@ -159,3 +159,21 @@ aside h1{
 .toggle-read-books:hover{
     box-shadow: inset 0 0 16px rgba(108, 92, 231, 0.7); /* stronger glow */
 }
+.toggle-unread-books{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.3rem;
+    transition: all 0.3s ease;
+    padding-left: 10px;
+    border-bottom: 1px solid linear-gradient(to right, pink);
+}
+.toggle-unread-books > img{
+    height: 30px;
+    width: 30px;
+}
+.toggle-unread-books:hover{
+    box-shadow: inset 0 0 16px rgba(108, 92, 231, 0.7); /* stronger glow */
+}
