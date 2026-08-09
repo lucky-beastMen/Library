@@ -75,4 +75,5 @@ createBook('Meditations', 'Marcus Aurelius', 200, 'read'.toLocaleLowerCase());
 createBook('The art of war', 'Sun Tzu', 300, 'unread'.toLocaleLowerCase());
 createBook('The art of war', 'Sun Tzu', 300, 'unread'.toLocaleLowerCase());
 
+
 displayBook(savedBooks)
