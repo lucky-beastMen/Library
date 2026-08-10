@@ -20,6 +20,8 @@ body{
     grid-template-columns: 20% 80%;
     font-family: sans-serif;
     margin: 0;
+    width: 100vw;
+    height: 100vh;
     padding: 0;
     border: 0;
     outline: 0;
@@ -103,7 +105,7 @@ main{
     padding: 10px;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: flex-start;
     gap: 40px;
     margin-left: 20px;
 }
@@ -378,5 +380,194 @@ aside h1{
 }
 .footer{
     margin-left: 20px;
-    margin-top: 130px;
+    margin-top: 50px;
+}
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: none;
+    z-index: 999;
+}
+.modal-overlay.active{
+    display: block;
+}
+.modal-card{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    display: none;
+    border-radius: 10px;
+    color: white;
+    background-color: rgb(12, 18, 38);
+
+    width: 450px;
+    border: 1px solid black;
+}
+.modal-card.active{
+    display: block;
+}
+.modal-header{
+    margin: 10px 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.card-img-holder{
+    display: flex;
+    align-items: center;
+}
+.modal-header img{
+    width: 35px;
+    height: 40px;
+}
+.modal-header h2{
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+.modal-text-header{
+    margin: 10px 20px;
+    display: flex;
+    gap: 10px;
+}
+.modal-close-button-holder{
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+}
+.modal-close-button{
+    border: 3px solid rgb(30, 32, 55);
+    border-radius: 5px;
+    width: 40px;
+    outline: 0;
+    background-color: transparent;
+    color: purple;
+    font-size: 34px;
+    cursor: pointer;
+    font-weight: 900;
+    
+}
+.modal-hr{
+    width: 90%;
+    border-color: purple;
+    margin: 0 auto;    
+    text-align: center;
+}
+.modal-form-holder{
+    padding: 20px;
+}
+.modal-form{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.modal-title-input-holder{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+#book-name-input{
+    width: 80%;
+    height: 35px;
+    background-color: transparent;
+    padding-left: 10px;
+    color: white;
+    outline: 0;
+    border: 1px solid rgba(238, 238, 238, 0.2);
+    border-radius: 5px;
+}
+.modal-author-input-holder{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+#author-name-input{
+    width: 80%;
+    height: 35px;
+    background-color: transparent;
+    padding-left: 10px;
+    color: white;
+    outline: 0;
+    border: 1px solid rgba(238, 238, 238, 0.2);
+    border-radius: 5px;
+}
+.modal-page-input-holder{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+#page-input{
+    width: 30%;
+    height: 35px;
+    background-color: transparent;
+    padding-left: 10px;
+    color: white;
+    outline: 0;
+    border: 1px solid rgba(238, 238, 238, 0.2);
+    border-radius: 5px;
+}
+.modal-status-holder{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.modal-radio-input-holder{
+    background-color: #0a102c;
+    height: 30px;
+    border: 1px solid rgba(238, 238, 238, 0.2);
+    border-radius: 5px;
+    padding: 8px 10px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+.modal-read-radio-holder{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.modal-unread-radio-holder{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.modal-buttons-holder{
+    display: flex;
+    justify-content: end;
+    gap: 20px;
+    align-items: center;
+}
+.modal-cancel-button{
+    width: 100px;
+    background-color: #0a102c;
+    color: white;
+    border: 1px solid rgba(238, 238, 238, 0.2);
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 17px;
+    outline: 0;
+    cursor: pointer;
+}
+.modal-add-button{
+    width: 150px;
+    background: linear-gradient(to right, purple, rgb(225, 0, 116));
+    color: white;
+    border: 0;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 17px;
+    font-weight: 700;
+    outline: 0;
+    cursor: pointer;
+}
+.modal-button{
+    transition: all 0.2s ease;
+}
+.modal-button:hover{
+    transform: scale(1.05);
 }

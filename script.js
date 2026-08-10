@@ -1,4 +1,11 @@
 let main = document.querySelector('main');
+let body = document.querySelector('body');
+let addButton = document.querySelector('#add-button');
+let modalCard = document.querySelector('.modal-card');
+let modalCloseButton = document.querySelector('.modal-close-button');
+let modalCancelButton = document.querySelector('.modal-cancel-button');
+let modalOverlay = document.querySelector('.modal-overlay');
+let modalForm = document.querySelector('.modal-form');
 
 function Book(name, author, pages, status){
     this.name = name;
@@ -50,10 +57,23 @@ function displayBook(bookArray){
         editButton.classList.add('card-button');
         editButton.textContent = 'Edit';
         let removeButton = document.createElement('button');
+
         removeButton.classList.add('remove-button');
         removeButton.classList.add('card-button');
         removeButton.textContent = 'Remove';
-        buttonHolder.append(editButton, removeButton)
+        buttonHolder.append(editButton, removeButton);
+        removeButton.addEventListener('click', (e) => {
+            let bookIndex = savedBooks.indexOf(bookArray[i]);
+            savedBooks.splice(bookIndex, 1);
+            console.log(e);
+            main.removeChild(card);
+        })
+        editButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            modalCard.classList.add('active');
+            modalOverlay.classList.add('active');
+            
+        })
         statusDiv.classList.add('status-div')
         if(bookArray[i].status == 'read'){
             statusInfo.append(`Read`);
@@ -68,12 +88,45 @@ function displayBook(bookArray){
         bookInfoHolder.append(bookName, authorName, hr1, bookPageCount, statusDiv)
         card.append(imgHolder, bookInfoHolder, buttonHolder);
         card.classList.add('card');
-        main.append(card)
+        main.append(card);
     }
 }
+
+addButton.addEventListener('click', (e) =>{
+    e.stopPropagation();
+    modalCard.classList.add('active');
+    modalOverlay.classList.add('active');
+});
+
+modalCloseButton.addEventListener('click', () => {
+    modalCard.classList.remove('active');
+    modalOverlay.classList.remove('active');
+    for(let i = 0; i < modalForm.length; i++){
+        modalForm[i].value = ''; 
+        modalForm[i].checked = false;
+    }
+});
+modalCancelButton.addEventListener('click', () => {
+    modalCard.classList.remove('active');
+    modalOverlay.classList.remove('active');
+    for(let i = 0; i < modalForm.length; i++){
+        modalForm[i].value = ''; 
+        modalForm[i].checked = false;
+    }
+});
+modalOverlay.addEventListener('click', (e) => {
+    if(modalCard.contains(e.target) === false){
+        console.log(e);
+        modalCard.classList.remove('active');
+        modalOverlay.classList.remove('active');
+        for(let i = 0; i < modalForm.length; i++){
+            modalForm[i].value = ''; 
+            modalForm[i].checked = false;
+        }
+    }
+});
 createBook('Meditations', 'Marcus Aurelius', 200, 'read'.toLocaleLowerCase());
 createBook('The art of war', 'Sun Tzu', 300, 'unread'.toLocaleLowerCase());
-createBook('The art of war', 'Sun Tzu', 300, 'unread'.toLocaleLowerCase());
+createBook('The art of war2', 'Sun Tzu', 300, 'unread'.toLocaleLowerCase());
 
-
-displayBook(savedBooks)
+displayBook(savedBooks);
