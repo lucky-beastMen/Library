@@ -148,6 +148,11 @@ main .card{
     align-items: center;
     gap: 5px;
 }
+.page-info-holder{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
 .book-info-holder{
     grid-column: 2/-1;
     grid-row: 1/2;
@@ -402,7 +407,6 @@ aside h1{
     border-radius: 10px;
     color: white;
     background-color: rgb(12, 18, 38);
-
     width: 450px;
     border: 1px solid black;
 }
