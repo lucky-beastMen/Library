@@ -481,6 +481,14 @@ aside h1{
     border: 1px solid rgba(238, 238, 238, 0.2);
     border-radius: 5px;
 }
+#book-name-input:focus{
+    border: 1px solid #fa00c8;
+    box-shadow: 0 0 5px #fa00c8;
+}
+#author-name-input:focus{
+    border: 1px solid #fa00c8;
+    box-shadow: 0 0 5px #fa00c8;
+}
 .modal-author-input-holder{
     display: flex;
     flex-direction: column;
@@ -510,6 +518,10 @@ aside h1{
     outline: 0;
     border: 1px solid rgba(238, 238, 238, 0.2);
     border-radius: 5px;
+}
+#page-input:focus{
+    border: 1px solid #fa00c8;
+    box-shadow: 0 0 5px #fa00c8;
 }
 .modal-status-holder{
     display: flex;

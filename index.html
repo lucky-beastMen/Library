@@ -92,26 +92,26 @@
                 <form action="" class="modal-form">
                     <div class="modal-title-input-holder">
                         <label for="book-name-input">Title</label>
-                        <input type="text" placeholder="Enter Book Title" id="book-name-input">
+                        <input type="text" placeholder="Enter Book Title" id="book-name-input" required>
                     </div>
                     <div class="modal-author-input-holder">
                         <label for="author-name-input">Author</label>
-                        <input type="text" placeholder="Enter author name" id="author-name-input">
+                        <input type="text" placeholder="Enter author name" id="author-name-input" required>
                     </div>
                     <div class="modal-page-input-holder">
                         <label for="page-input">Pages</label>
-                        <input type="number" placeholder="000" id="page-input">
+                        <input type="number" placeholder="000" id="page-input" required>
                     </div>
                     <div class="modal-status-holder">
                         <p>Read Status</p>
                         <div class="modal-radio-input-holder">
                             <div class="modal-read-radio-holder">
                                 <label for="read-status-input">Read</label>
-                                <input type="radio" name="status-input" id="read-status-input">
+                                <input type="radio" name="status-input" id="read-status-input" value="read" required>
                             </div>
                             <div class="modal-unread-radio-holder">
                                 <label for="unread-status-input">Unread</label>
-                                <input type="radio" name="status-input" id="unread-status-input">
+                                <input type="radio" name="status-input" id="unread-status-input" value="unread" required>
                             </div>
                         </div>
                     </div>
