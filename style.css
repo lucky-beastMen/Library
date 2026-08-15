@@ -18,18 +18,18 @@ body{
     background-image: url(pictures/892eebd7-cbf4-4b92-8f86-4e1075fec0eb.png);
     display: grid;
     grid-template-columns: 20% 80%;
+    grid-template-rows: 60px 90px 1fr;  /* fixed sizes for row 1 & 2, 1fr takes the rest */
     font-family: sans-serif;
     margin: 0;
-    width: 100vw;
-    height: 100vh;
     padding: 0;
     border: 0;
     outline: 0;
-    grid-template-rows: 5% 15% 80%;
+    width: 100%;
+    min-height: 100vh;
 }
 
 header{
-    backdrop-filter: blur(1px);
+    backdrop-filter: blur(10px);
     grid-column: 2/-1;
     grid-row: 2/3;
     background-color: rgba(0,0,0,0.2);
@@ -39,6 +39,9 @@ header{
     justify-content: space-between;
     align-items: center;
     padding: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;   /* keeps it above book cards as they scroll under it */
 }
 header h1{
     font-family: orbitron-black, sans-serif;
@@ -106,8 +109,10 @@ main{
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
+    align-content: flex-start;
     gap: 40px;
-    margin-left: 20px;
+    padding-left: 30px;  /* replaces margin-left: 20px */
+    min-height: 0;       /* stops main from forcing its row to overflow the grid */
 }
 main .card{
     padding-top: 20px;
@@ -156,6 +161,11 @@ main .card{
 .book-info-holder{
     grid-column: 2/-1;
     grid-row: 1/2;
+}
+.page-count-holder{
+    display: flex;
+    align-items: center;
+    gap: 7px;
 }
 .book-info-holder hr{
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -219,6 +229,11 @@ aside{
     grid-column: 1/2;
     grid-row: 1/-1;
     border-right: 1px solid rgb(48, 48, 97);
+    position: sticky;
+    top: 0;
+    align-self: start;
+    height: 100vh;
+    overflow-y: auto;    /* if aside's own content ever exceeds the viewport, it scrolls internally instead of pushing the page */
 }
 aside h1{
     font-family: orbitron-black, sans-serif;

@@ -14,10 +14,18 @@ const readRadio = document.querySelector('#read-status-input');
 const unreadRadio = document.querySelector('#unread-status-input');
 let radioCheck;
 let editing = false;
+let addingBook = false;
+let singleEditing = false;
 let bookIndex;
 let currentBook = null;
 let infoToEdit = null;
 let pageDivToEdit = null;
+let statusInfoArray = null;
+let bookId;
+let singleEditArray = [];
+let singlePageCountArray = [];
+let singleCardStatus = null;
+let singleStatus = null;
 function Book(name, author, pages, status){
     this.name = name;
     this.author = author;
@@ -25,6 +33,7 @@ function Book(name, author, pages, status){
     this.status = status;
     const id = crypto.randomUUID();
     this.id = id;
+    
 }
 const savedBooks = [];
 function createBook(name, author, pages, status){
@@ -86,18 +95,36 @@ function displayBook(bookArray){
             savedBooks.splice(bookIndex, 1);
             main.removeChild(card);
         })
+        
+        statusDiv.classList.add('status-div')
+        if(bookArray[i].status == 'read'){
+            statusInfo.append(`Read`);
+            statusDiv.append(greenDot, statusInfo);
+            statusDiv.setAttribute('style', 'background-color: rgb(7, 23, 29); color: rgb(24, 231, 79)');
+        }else if(bookArray[i].status == 'unread'){
+            statusInfo.append(`Unread`);
+            statusDiv.append(redDot, statusInfo);
+            
+            statusDiv.setAttribute('style', 'background-color: rgb(22, 13, 30); color: rgb(247, 42, 77)');
+        }
         editButton.addEventListener('click', (e) => {
             e.stopPropagation();
+            statusInfoArray = Array.from(statusDiv.childNodes);
+            statusInfoArray.push(statusDiv);
             
             modalAddButton.textContent = 'Update';
             modalCard.classList.add('active');
             modalOverlay.classList.add('active');
             bookIndex = savedBooks.indexOf(bookArray[i]);
-            console.log(bookIndex);
             currentBook = bookArray[bookIndex]
             modalBookName.value = bookArray[bookIndex].name;
             modalAuthorName.value = bookArray[bookIndex].author;
             modalPageInput.value = bookArray[bookIndex].pages;
+            if(bookArray[bookIndex].status === 'read'){
+                readRadio.checked = true;
+            }else if(bookArray[bookIndex].status === 'unread'){
+                unreadRadio.checked = true;
+            }
             editing = true;
             let parentEle = e.target.parentElement;
             let grandPaEle = parentEle.parentElement;
@@ -106,18 +133,7 @@ function displayBook(bookArray){
             infoToEdit = Array.from(mainChild.childNodes);
             pageDivToEdit = Array.from(infoToEdit[3].childNodes);
             
-            
         })
-        statusDiv.classList.add('status-div')
-        if(bookArray[i].status == 'read'){
-            statusInfo.append(`Read`);
-            statusDiv.append(greenDot, statusInfo);
-            statusDiv.setAttribute('style', 'background-color: rgb(7, 23, 29); color: rgb(24, 231, 79)');
-        }else{
-            statusInfo.append(`Unread`);
-            statusDiv.append(redDot, statusInfo);
-            statusDiv.setAttribute('style', 'background-color: rgb(22, 13, 30); color: rgb(247, 42, 77)');
-        }
         pageInfoHolder.append(pageIcon, bookPageCount);
         bookInfoHolder.append(bookName, authorName, hr1, pageInfoHolder, statusDiv)
         card.append(imgHolder, bookInfoHolder, buttonHolder);
@@ -138,15 +154,19 @@ function displaySingleBook(bookArray){
         buttonHolder.classList.add('button-holder');
         let bookName = document.createElement('p');
         let authorName = document.createElement('p');
+        let pageCountHolder = document.createElement('div');
+        pageCountHolder.classList.add('page-count-holder');
         let bookPageCount = document.createElement('p');
-        bookPageCount.classList.add('book-page-count')
+        bookPageCount.classList.add('book-page-count');
         let statusDiv = document.createElement('div');
         let statusInfo = document.createElement('p');
+        statusInfo.classList.add('status-info')
         let hr1 = document.createElement('hr');
         let greenDot = document.createElement('img');
         let pageIcon = document.createElement('img');
+        pageIcon.setAttribute('id', 'single-page-icon');
         pageIcon.setAttribute('src', 'icons/notebook-text.png');
-        pageIcon.setAttribute('alt', 'Page icon')
+        pageIcon.setAttribute('alt', 'Page icon');
         greenDot.setAttribute('src', 'icons/green_dot-removebg-preview.png');
         greenDot.setAttribute('alt', 'Green dot');
         let redDot = document.createElement('img');
@@ -154,9 +174,13 @@ function displaySingleBook(bookArray){
         redDot.setAttribute('alt', 'red dot');
         authorName.textContent = bookArray.at(-1).author;
         bookName.textContent = bookArray.at(-1).name;
-        bookPageCount.append(pageIcon, bookArray.at(-1).pages);
+        bookPageCount.textContent = bookArray.at(-1).pages;
+
+        let randomId = document.createElement('p');
+        randomId.textContent = bookArray.at(-1).id;
+        randomId.style.display = 'none';
         let editButton = document.createElement('button');
-        editButton.classList.add('edit-button');
+        editButton.classList.add('edit-button');    
         editButton.classList.add('card-button');
         editButton.textContent = 'Edit';
         let removeButton = document.createElement('button');
@@ -165,16 +189,7 @@ function displaySingleBook(bookArray){
         removeButton.textContent = 'Remove';
         buttonHolder.append(editButton, removeButton);
         removeButton.addEventListener('click', (e) => {
-            let bookIndex = savedBooks.indexOf(bookArray.at(-1));
-            savedBooks.splice(bookIndex, 1);
-            console.log(e);
             main.removeChild(card);
-        })
-        editButton.addEventListener('click', (e) => {
-            e.stopPropagation();
-            modalCard.classList.add('active');
-            modalOverlay.classList.add('active');
-
         })
         statusDiv.classList.add('status-div')
         if(bookArray.at(-1).status == 'read'){
@@ -186,28 +201,58 @@ function displaySingleBook(bookArray){
             statusDiv.append(redDot, statusInfo);
             statusDiv.setAttribute('style', 'background-color: rgb(22, 13, 30); color: rgb(247, 42, 77)');
         }
-        
-        bookInfoHolder.append(bookName, authorName, hr1, bookPageCount, statusDiv)
+        editButton.addEventListener('click', (e) => {
+
+            e.stopPropagation();
+            modalAddButton.textContent = 'Update';
+            modalCard.classList.add('active');
+            modalOverlay.classList.add('active');
+            let parentEle = e.target.parentElement;
+            let mainParent = parentEle.parentElement;
+            let cardArray = Array.from(mainParent.childNodes);
+            let editArray = Array.from(cardArray[1].childNodes);
+            bookId = editArray[5].textContent;
+            singleEditArray = editArray;
+            singlePageCountArray = Array.from(pageCountHolder.childNodes);
+
+            let single = Array.from(editArray[4].childNodes);
+            singleCardStatus = single;
+            singleStatus = editArray[4];
+            console.log(singleCardStatus);
+            
+            modalBookName.value = bookName.textContent;
+            modalAuthorName.value = authorName.textContent;
+            modalPageInput.value = bookPageCount.textContent;
+            if(statusInfo.textContent === 'Read'){
+                readRadio.checked = true;
+            }else if(statusInfo.textContent === 'Unread'){
+                unreadRadio.checked = true;
+            }
+            singleEditing = true;
+        })
+
+        pageCountHolder.append(pageIcon, bookPageCount);
+        bookInfoHolder.append(bookName, authorName, hr1, pageCountHolder, statusDiv, randomId)
         card.append(imgHolder, bookInfoHolder, buttonHolder);
         card.classList.add('card');
         main.append(card);
 }
 readRadio.addEventListener('change', () => {
     if (readRadio.checked) {
-        radioCheck = 'read'
+        radioCheck = 'read';
     }
 });
 
 unreadRadio.addEventListener('change', () => {
     if (unreadRadio.checked) {
-        radioCheck = 'unread'
+        radioCheck = 'unread';
     }
 });
 addButton.addEventListener('click', (e) =>{
     e.stopPropagation();
     modalAddButton.textContent = 'Add Book';
     modalCard.classList.add('active');
-
+    addingBook = true;
     modalOverlay.classList.add('active');
 });
 
@@ -229,7 +274,6 @@ modalCancelButton.addEventListener('click', () => {
 });
 modalOverlay.addEventListener('click', (e) => {
     if(modalCard.contains(e.target) === false){
-        console.log(e);
         modalCard.classList.remove('active');
         modalOverlay.classList.remove('active');
         for(let i = 0; i < modalForm.length; i++){
@@ -240,33 +284,96 @@ modalOverlay.addEventListener('click', (e) => {
 });
 modalForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    if(editing){        
+    if(editing){
         createBook(modalBookName.value, modalAuthorName.value, modalPageInput.value, radioCheck);
         savedBooks[bookIndex].name = modalBookName.value;
         savedBooks[bookIndex].author = modalAuthorName.value;
         savedBooks[bookIndex].pages = modalPageInput.value;
+        
         infoToEdit[0].textContent = modalBookName.value;
         infoToEdit[1].textContent = modalAuthorName.value;
         pageDivToEdit[1].textContent = modalPageInput.value;
+        
+        if(radioCheck === 'read'){
+            statusInfoArray[1].textContent = 'Read';
+            statusInfoArray[0].src = 'icons/green_dot-removebg-preview.png';
+            statusInfoArray[2].style.backgroundColor = 'rgb(7, 23, 29)';
+            statusInfoArray[2].style.color = 'rgb(24, 231, 79)';     
+            savedBooks[bookIndex].status = 'read';      
+        }else if(radioCheck === 'unread'){
+            statusInfoArray[1].textContent = 'Unread';
+            statusInfoArray[0].src = 'icons/red_dot-removebg-preview.png';
+            statusInfoArray[2].style.backgroundColor = 'rgb(22, 13, 30)';
+            statusInfoArray[2].style.color = 'rgb(247, 42, 77)';  
+            savedBooks[bookIndex].status = 'unread'; 
+
+        }
         modalCard.classList.remove('active');
         modalOverlay.classList.remove('active');
         for(let i = 0; i < modalForm.length; i++){
             modalForm[i].value = '';
             modalForm[i].checked = false;
         }
+        editing = false;
     }
-    else{
+    else if(addingBook == true){
         createBook(modalBookName.value, modalAuthorName.value, modalPageInput.value, radioCheck);
         modalCard.classList.remove('active');
         modalOverlay.classList.remove('active');
         displaySingleBook(savedBooks);
+        
         for(let i = 0; i < modalForm.length; i++){
             modalForm[i].value = ''; 
             modalForm[i].checked = false;
         }
+        addingBook = false;
+    }else if(singleEditing == true){
+        e.preventDefault();
+        console.log('works');
+        
+        modalCard.classList.remove('active');
+        modalOverlay.classList.remove('active');
+        for(let i = 0; i < savedBooks.length; i++){
+            if(savedBooks[i].id != bookId){
+                continue;
+            }else if(savedBooks[i].id == bookId){
+                savedBooks[i].name = modalBookName.value;
+                savedBooks[i].author = modalAuthorName.value;
+                
+                singleEditArray[0].textContent = modalBookName.value;
+                singleEditArray[1].textContent = modalAuthorName.value;
+                singlePageCountArray[1].textContent = modalPageInput.value;
+                if(radioCheck === 'read'){
+                    singleCardStatus[1].textContent = 'Read';
+                    singleCardStatus[0].src = 'icons/green_dot-removebg-preview.png';
+                    singleStatus.style.backgroundColor = 'rgb(7, 23, 29)';
+                    singleStatus.style.color = 'rgb(24, 231, 79)';     
+                }else if(radioCheck === 'unread'){
+                    singleCardStatus[1].textContent = 'Unread';
+                    singleCardStatus[0].src = 'icons/red_dot-removebg-preview.png';
+                    singleStatus.style.backgroundColor = 'rgb(22, 13, 30)';
+                    singleStatus.style.color = 'rgb(247, 42, 77)';  
+
+                }
+            }
+        }
+        for(let i = 0; i < modalForm.length; i++){
+            modalForm[i].value = ''; 
+            modalForm[i].checked = false;
+        }
+        singleEditing = false;
     }
     
 })
+createBook('Meditations', 'Marcus Aurelius', 200, 'read'.toLocaleLowerCase());
+createBook('The art of war', 'Sun Tzu', 300, 'unread'.toLocaleLowerCase());
+createBook('The art of war2', 'Sun Tzu', 300, 'unread'.toLocaleLowerCase());
+createBook('Meditations', 'Marcus Aurelius', 200, 'read'.toLocaleLowerCase());
+createBook('The art of war', 'Sun Tzu', 300, 'unread'.toLocaleLowerCase());
+createBook('The art of war2', 'Sun Tzu', 300, 'unread'.toLocaleLowerCase());
+createBook('Meditations', 'Marcus Aurelius', 200, 'read'.toLocaleLowerCase());
+createBook('The art of war', 'Sun Tzu', 300, 'unread'.toLocaleLowerCase());
+createBook('The art of war2', 'Sun Tzu', 300, 'unread'.toLocaleLowerCase());
 createBook('Meditations', 'Marcus Aurelius', 200, 'read'.toLocaleLowerCase());
 createBook('The art of war', 'Sun Tzu', 300, 'unread'.toLocaleLowerCase());
 createBook('The art of war2', 'Sun Tzu', 300, 'unread'.toLocaleLowerCase());
