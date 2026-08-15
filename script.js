@@ -368,14 +368,6 @@ modalForm.addEventListener('submit', (e) => {
 createBook('Meditations', 'Marcus Aurelius', 200, 'read'.toLocaleLowerCase());
 createBook('The art of war', 'Sun Tzu', 300, 'unread'.toLocaleLowerCase());
 createBook('The art of war2', 'Sun Tzu', 300, 'unread'.toLocaleLowerCase());
-createBook('Meditations', 'Marcus Aurelius', 200, 'read'.toLocaleLowerCase());
-createBook('The art of war', 'Sun Tzu', 300, 'unread'.toLocaleLowerCase());
-createBook('The art of war2', 'Sun Tzu', 300, 'unread'.toLocaleLowerCase());
-createBook('Meditations', 'Marcus Aurelius', 200, 'read'.toLocaleLowerCase());
-createBook('The art of war', 'Sun Tzu', 300, 'unread'.toLocaleLowerCase());
-createBook('The art of war2', 'Sun Tzu', 300, 'unread'.toLocaleLowerCase());
-createBook('Meditations', 'Marcus Aurelius', 200, 'read'.toLocaleLowerCase());
-createBook('The art of war', 'Sun Tzu', 300, 'unread'.toLocaleLowerCase());
-createBook('The art of war2', 'Sun Tzu', 300, 'unread'.toLocaleLowerCase());
+
 
 displayBook(savedBooks);
