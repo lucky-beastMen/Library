@@ -26,6 +26,9 @@ let singleEditArray = [];
 let singlePageCountArray = [];
 let singleCardStatus = null;
 let singleStatus = null;
+let overTotal = document.querySelector('.over-total-count');
+let overRead = document.querySelector('.over-read-count');
+let overUnread = document.querySelector('.over-unread-count');
 function Book(name, author, pages, status){
     this.name = name;
     this.author = author;
@@ -34,12 +37,12 @@ function Book(name, author, pages, status){
     const id = crypto.randomUUID();
     this.id = id;
     
-}
+};
 const savedBooks = [];
 function createBook(name, author, pages, status){
     const curBook = new Book(name, author, pages, status);
     savedBooks.push(curBook);
-}
+};
 function displayBook(bookArray){
     for(let i = 0; i < bookArray.length; i++){
         let card = document.createElement('div');
@@ -94,6 +97,7 @@ function displayBook(bookArray){
             let bookIndex = savedBooks.indexOf(bookArray[i]);
             savedBooks.splice(bookIndex, 1);
             main.removeChild(card);
+            overView()
         })
         
         statusDiv.classList.add('status-div')
@@ -140,7 +144,8 @@ function displayBook(bookArray){
         card.classList.add('card');
         main.append(card);
     }
-}
+    overView();
+};
 function displaySingleBook(bookArray){
     let card = document.createElement('div');
         let imgHolder = document.createElement('div');
@@ -190,6 +195,7 @@ function displaySingleBook(bookArray){
         buttonHolder.append(editButton, removeButton);
         removeButton.addEventListener('click', (e) => {
             main.removeChild(card);
+            overView()
         })
         statusDiv.classList.add('status-div')
         if(bookArray.at(-1).status == 'read'){
@@ -218,7 +224,6 @@ function displaySingleBook(bookArray){
             let single = Array.from(editArray[4].childNodes);
             singleCardStatus = single;
             singleStatus = editArray[4];
-            console.log(singleCardStatus);
             
             modalBookName.value = bookName.textContent;
             modalAuthorName.value = authorName.textContent;
@@ -236,7 +241,7 @@ function displaySingleBook(bookArray){
         card.append(imgHolder, bookInfoHolder, buttonHolder);
         card.classList.add('card');
         main.append(card);
-}
+};
 readRadio.addEventListener('change', () => {
     if (readRadio.checked) {
         radioCheck = 'read';
@@ -327,9 +332,9 @@ modalForm.addEventListener('submit', (e) => {
             modalForm[i].checked = false;
         }
         addingBook = false;
+        overView();
     }else if(singleEditing == true){
         e.preventDefault();
-        console.log('works');
         
         modalCard.classList.remove('active');
         modalOverlay.classList.remove('active');
@@ -364,10 +369,35 @@ modalForm.addEventListener('submit', (e) => {
         singleEditing = false;
     }
     
-})
-createBook('Meditations', 'Marcus Aurelius', 200, 'read'.toLocaleLowerCase());
-createBook('The art of war', 'Sun Tzu', 300, 'unread'.toLocaleLowerCase());
-createBook('The art of war2', 'Sun Tzu', 300, 'unread'.toLocaleLowerCase());
+});
+createBook('Meditations', 'Marcus Aurelius', 200, 'read'.toLowerCase());
+
 
 
 displayBook(savedBooks);
+function overView(){
+    console.log('fired');
+    let mainChildrenCards = [];
+    mainChildrenCards = Array.from(main.childNodes);
+    let a = 0;
+    let b = 0;
+    let c = 0;
+    for(let i = 0; i < mainChildrenCards.length; i++){
+        a++;
+        let cardArray = mainChildrenCards[i].childNodes;    
+        let infoHolderArray = cardArray[1].childNodes;
+        let statusHolderArray = infoHolderArray[4].childNodes;
+        console.log(statusHolderArray);
+        if(statusHolderArray[1].textContent == 'Read'){
+            b++;
+        }
+        else if(statusHolderArray[1].textContent == 'Unread'){
+            c++;
+        }
+    }
+    console.log(a);
+    overTotal.textContent = a;
+    overRead.textContent = b;
+    overUnread.textContent = c;
+}
+
