@@ -602,3 +602,9 @@ aside h1{
 .modal-button:hover{
     transform: scale(1.05);
 }
+.read-status-card{
+    display: none;
+}
+.unread-status-card{
+    display: none;
+}

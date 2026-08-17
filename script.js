@@ -12,6 +12,9 @@ let modalBookName = document.querySelector('#book-name-input');
 let modalPageInput = document.querySelector('#page-input');
 const readRadio = document.querySelector('#read-status-input');
 const unreadRadio = document.querySelector('#unread-status-input');
+const toggleAllBooks = document.querySelector('.toggle-all-books');
+const toggleReadBooks = document.querySelector('.toggle-read-books');
+const toggleUnreadBooks = document.querySelector('.toggle-unread-books');
 let radioCheck;
 let editing = false;
 let addingBook = false;
@@ -29,6 +32,8 @@ let singleStatus = null;
 let overTotal = document.querySelector('.over-total-count');
 let overRead = document.querySelector('.over-read-count');
 let overUnread = document.querySelector('.over-unread-count');
+let readCardsHolderArray = [];
+let unreadCardsHolderArray = [];
 function Book(name, author, pages, status){
     this.name = name;
     this.author = author;
@@ -97,7 +102,7 @@ function displayBook(bookArray){
             let bookIndex = savedBooks.indexOf(bookArray[i]);
             savedBooks.splice(bookIndex, 1);
             main.removeChild(card);
-            overView()
+            overView();
         })
         
         statusDiv.classList.add('status-div')
@@ -195,7 +200,7 @@ function displaySingleBook(bookArray){
         buttonHolder.append(editButton, removeButton);
         removeButton.addEventListener('click', (e) => {
             main.removeChild(card);
-            overView()
+            overView();
         })
         statusDiv.classList.add('status-div')
         if(bookArray.at(-1).status == 'read'){
@@ -371,12 +376,8 @@ modalForm.addEventListener('submit', (e) => {
     
 });
 createBook('Meditations', 'Marcus Aurelius', 200, 'read'.toLowerCase());
-
-
-
 displayBook(savedBooks);
 function overView(){
-    console.log('fired');
     let mainChildrenCards = [];
     mainChildrenCards = Array.from(main.childNodes);
     let a = 0;
@@ -387,7 +388,6 @@ function overView(){
         let cardArray = mainChildrenCards[i].childNodes;    
         let infoHolderArray = cardArray[1].childNodes;
         let statusHolderArray = infoHolderArray[4].childNodes;
-        console.log(statusHolderArray);
         if(statusHolderArray[1].textContent == 'Read'){
             b++;
         }
@@ -401,3 +401,53 @@ function overView(){
     overUnread.textContent = c;
 }
 
+toggleReadBooks.addEventListener('click', (e) => {
+    let mainChildrenCards = [];
+    mainChildrenCards = Array.from(main.childNodes);
+    for(let i = 0; i < mainChildrenCards.length; i++){
+        let cardArray = mainChildrenCards[i].childNodes;    
+        let infoHolderArray = cardArray[1].childNodes;
+        let statusHolderArray = infoHolderArray[4].childNodes;
+        if(statusHolderArray[1].textContent == 'Read'){
+            mainChildrenCards[i].style.display = 'grid';
+        }
+        if(statusHolderArray[1].textContent == 'Unread'){
+            mainChildrenCards[i].style.display = 'none'
+        }
+        console.log(mainChildrenCards[i]);
+        
+    }
+    
+});
+toggleUnreadBooks.addEventListener('click', (e) => {
+    let mainChildrenCards = [];
+    mainChildrenCards = Array.from(main.childNodes);
+    for(let i = 0; i < mainChildrenCards.length; i++){
+        let cardArray = mainChildrenCards[i].childNodes;    
+        let infoHolderArray = cardArray[1].childNodes;
+        let statusHolderArray = infoHolderArray[4].childNodes;
+        if(statusHolderArray[1].textContent == 'Read'){
+            mainChildrenCards[i].style.display = 'none';
+        }
+        if(statusHolderArray[1].textContent == 'Unread'){
+            mainChildrenCards[i].style.display = 'grid';
+        }
+        console.log(mainChildrenCards[i]);
+    }
+});
+toggleAllBooks.addEventListener('click', (e) => {
+    let mainChildrenCards = [];
+    mainChildrenCards = Array.from(main.childNodes);
+    for(let i = 0; i < mainChildrenCards.length; i++){
+        let cardArray = mainChildrenCards[i].childNodes;    
+        let infoHolderArray = cardArray[1].childNodes;
+        let statusHolderArray = infoHolderArray[4].childNodes;
+        if(statusHolderArray[1].textContent == 'Read'){
+            mainChildrenCards[i].style.display = 'grid';
+        }
+        if(statusHolderArray[1].textContent == 'Unread'){
+            mainChildrenCards[i].style.display = 'grid';
+        }
+        console.log(mainChildrenCards[i]);
+    }
+})
