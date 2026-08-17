@@ -353,6 +353,7 @@ modalForm.addEventListener('submit', (e) => {
                 singleEditArray[0].textContent = modalBookName.value;
                 singleEditArray[1].textContent = modalAuthorName.value;
                 singlePageCountArray[1].textContent = modalPageInput.value;
+                
                 if(radioCheck === 'read'){
                     singleCardStatus[1].textContent = 'Read';
                     singleCardStatus[0].src = 'icons/green_dot-removebg-preview.png';
